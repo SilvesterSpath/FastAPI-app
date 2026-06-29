@@ -9,7 +9,7 @@ from .auth import get_current_user
 
 router = APIRouter()
 
-
+ # Dependency Injection for the database
 def get_db():
     db = SessionLocal()
     try:

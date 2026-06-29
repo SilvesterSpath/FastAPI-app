@@ -12,7 +12,7 @@ router = APIRouter(
     tags=['admin']
 )
 
-
+# Dependency Injection for the database
 def get_db():
     db = SessionLocal()
     try:
