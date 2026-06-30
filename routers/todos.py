@@ -17,7 +17,7 @@ def get_db():
     finally:
         db.close()
 
-
+# FastAPI dependency aliases — auto-inject a DB session and current user per request
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
