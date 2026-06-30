@@ -1,3 +1,5 @@
+import config  # noqa: F401 — loads .env before other modules read settings
+
 from fastapi import FastAPI
 import models
 from database import engine

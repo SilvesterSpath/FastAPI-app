@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from starlette import status
+from config import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 from database import SessionLocal
 from models import Users
 from passlib.context import CryptContext
@@ -14,9 +15,6 @@ router = APIRouter(
     prefix='/auth',
     tags=['auth']
 )
-
-
-
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
@@ -102,7 +100,12 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail='Could not validate user.')
-    token = create_access_token(user.username, user.id, user.role, timedelta(minutes=20))
+    token = create_access_token(
+        user.username,
+        user.id,
+        user.role,
+        timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+    )
 
     return {'access_token': token, 'token_type': 'bearer'}
 

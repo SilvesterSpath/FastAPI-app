@@ -22,6 +22,7 @@ A FastAPI todo application with user authentication, role-based access, and SQLi
 ```
 TodoApp/
 ├── main.py           # App entry point, creates DB tables on startup
+├── config.py         # Loads .env and exposes app settings
 ├── database.py       # SQLite engine and session setup
 ├── models.py         # SQLAlchemy models (Users, Todos)
 ├── routers/
@@ -53,13 +54,27 @@ TodoApp/
    pip install -r requirements.txt
    ```
 
-3. Run the app from the `TodoApp` directory:
+3. Create your local environment file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   On Windows (PowerShell):
+
+   ```powershell
+   Copy-Item .env.example .env
+   ```
+
+   Edit `.env` and set a strong `SECRET_KEY`. The other values can stay as-is for local development.
+
+4. Run the app from the `TodoApp` directory:
 
    ```bash
    uvicorn main:app --reload
    ```
 
-4. Open the interactive API docs:
+5. Open the interactive API docs:
 
    - Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
    - ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
@@ -159,4 +174,4 @@ Requires a user with `role: "admin"`.
 ## Notes
 
 - `todosapp.db` is ignored by git; each environment creates its own database.
-- The JWT secret in `routers/auth.py` is for learning only. Use environment variables for a real deployment.
+- `.env` is ignored by git; copy `.env.example` to `.env` and set your own `SECRET_KEY`.
